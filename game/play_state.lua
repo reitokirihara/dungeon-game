@@ -2,26 +2,29 @@ PlayState = {
     draw = function(self)
         push:start()
         board:draw()
-        cursor:draw()
+        player:draw()
+        -- cursor:draw()
+        enemy:draw()
         push:finish()
     end
 }
 
 function PlayState:init()
     board = Board()
-    cursor = Cursor(vector(0,0))
-    player = Actor(vector(1,1), nil)
+    -- cursor = Cursor(vector(2,2))
+    player = Actor(vector(2,2), ACTOR_TYPES["player"])
+    enemy = Actor(vector(7,7), ACTOR_TYPES["enemy"])
 end
 
 function PlayState:keypressed(key)
     if key == "w" then
-        cursor:move(DIR_UP)
+        player:move(DIR_UP)
     elseif key == "d" then
-        cursor:move(DIR_RIGHT)
+        player:move(DIR_RIGHT)
     elseif key == "a" then
-        cursor:move(DIR_LEFT)
+        player:move(DIR_LEFT)
     elseif key == "s" then 
-        cursor:move(DIR_DOWN)
+        player:move(DIR_DOWN)
     end 
 
     if key == "return" then

@@ -3,6 +3,7 @@ Tile = Class{
         self.tilePos = pos
         self.boardPos = vector(self.tilePos.x * TILE_SIZE, -100)
         self.isSolid = def.isSolid or false
+        self.isOccupied = false
         
         self.color = def.color or {1,1,1}
         -- Timer.after(1, Timer.tween(love.math.random() * 0.3 + 0.2, self.boardPos, {y = self.tilePos.y * TILE_SIZE}, "in-bounce"))

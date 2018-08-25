@@ -20,10 +20,10 @@ Board = Class{
         for y, row in ipairs(self.tiles) do
             for x, tile in ipairs(row) do
                 love.graphics.setColor(tile.color)
-                love.graphics.rectangle("fill", self.position.x + tile.boardPos.x, self.position.y + tile.boardPos.y, TILE_SIZE, TILE_SIZE)
+                love.graphics.rectangle("fill", self.position.x + tile.boardPos.x - TILE_SIZE, self.position.y + tile.boardPos.y - TILE_SIZE, TILE_SIZE, TILE_SIZE)
                 love.graphics.setColor(0,0,0)
                 love.graphics.getLineWidth(TILE_SIZE/8)
-                love.graphics.rectangle("line", self.position.x + tile.boardPos.x, self.position.y + tile.boardPos.y, TILE_SIZE, TILE_SIZE)
+                love.graphics.rectangle("line", self.position.x + tile.boardPos.x - TILE_SIZE, self.position.y + tile.boardPos.y - TILE_SIZE, TILE_SIZE, TILE_SIZE)
            end
         end
     end
@@ -37,3 +37,6 @@ function Board:manhattan(p1, p2)
     return math.abs(p1.x - p2.x) + math.abs(p1.y - p2.y)
 end
 
+function Board:isSolid(pos)
+    return self.tiles[pos.y][pos.x].isSolid
+end
