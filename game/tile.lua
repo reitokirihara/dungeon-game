@@ -1,10 +1,12 @@
 Tile = Class{
     init = function(self, pos, def)
         self.tilePos = pos
+        self.type = def
         self.boardPos = vector(self.tilePos.x * TILE_SIZE, -100)
         self.isSolid = def.isSolid or false
         self.isOccupied = false
-        
+        self.actor = nil
+
         self.color = def.color or {1,1,1}
         -- Timer.after(1, Timer.tween(love.math.random() * 0.3 + 0.2, self.boardPos, {y = self.tilePos.y * TILE_SIZE}, "in-bounce"))
         flux.to(self.boardPos, 0.75, 
@@ -19,3 +21,7 @@ Tile = Class{
         self.boardPos = vector(self.tilePos.x * TILE_SIZE, self.tilePos.y * TILE_SIZE)
     end
 }
+
+function Tile:getActor()
+    return self.actor
+end

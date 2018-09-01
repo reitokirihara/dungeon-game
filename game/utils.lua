@@ -39,3 +39,12 @@ end
 function tileToWorldPos(pos)
     return vector((pos.x - 1)*TILE_SIZE + BOARD_X_OFFSET, (pos.y - 1)*TILE_SIZE + BOARD_Y_OFFSET)
 end 
+
+function contains(table, key)
+    for i, n in ipairs(table) do
+        if key == n then
+            return true
+        end
+    end
+    return false
+end

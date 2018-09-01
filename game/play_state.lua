@@ -1,31 +1,47 @@
 PlayState = {
+    init = function(self)
+        board = Board()
+        -- cursor = Cursor(vector(2,2))
+        player = Actor(vector(2,2), ACTOR_TYPES["player"])
+        enemy = Actor(vector(7,7), ACTOR_TYPES["enemy"])
+        actors = {player, enemy}
+
+        local path = board:getShortestPath(player, enemy)
+        for i, tile in ipairs(path) do
+            tile.color = {0, 0.6, 0.2}
+        end
+    end,
     draw = function(self)
         push:start()
         board:draw()
-        player:draw()
-        -- cursor:draw()
-        enemy:draw()
+        
+        for i, actor in ipairs(actors) do
+            if actor.isAlive then
+                actor:draw()
+            end
+        end
+
         push:finish()
     end
 }
 
-function PlayState:init()
-    board = Board()
-    -- cursor = Cursor(vector(2,2))
-    player = Actor(vector(2,2), ACTOR_TYPES["player"])
-    enemy = Actor(vector(7,7), ACTOR_TYPES["enemy"])
+function PlayState:update(dt)
 end
 
 function PlayState:keypressed(key)
     if key == "w" then
-        player:move(DIR_UP)
+        player:move(DIRS[DIR_UP])
     elseif key == "d" then
-        player:move(DIR_RIGHT)
+        player:move(DIRS[DIR_RIGHT])
     elseif key == "a" then
-        player:move(DIR_LEFT)
+        player:move(DIRS[DIR_LEFT])
     elseif key == "s" then 
-        player:move(DIR_DOWN)
+        player:move(DIRS[DIR_DOWN])
     end 
+
+    if key == "1" then
+        player:cast(1)
+    end
 
     if key == "return" then
         --select tile

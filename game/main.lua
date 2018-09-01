@@ -30,14 +30,18 @@ function love.load()
         canvas = false
     })
 
+    screen:setDimensions(push:getDimensions())
+
     GameState.registerEvents()
     GameState.switch(MenuState)
 end
 
 function love.update(dt)
     flux.update(dt)
+    screen:update(dt)
 end
 
 function love.draw()
    love.graphics.print(love.math.getRandomSeed(), 100, 100)
+   screen:apply()
 end

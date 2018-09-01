@@ -6,10 +6,20 @@ ABILITY_IDS = {
 ABILITY_TYPES = {
     ["attackA"] = {
         damage = 1,
-        execute = function()
+        range = 1,
+        cost = 0,
+        cast = function(self)
+            local tiles  = board:getNeighbors(self.owner.tilePos)
+            TargetState.tiles = tiles
             TargetState.ability = self
-            TargetState.tiles = {}
-            gameState.push(TargetState)
+            GameState.push(TargetState)
+        end,
+        execute = function(self, target)
+            target:damage(self.damage)
+            screen:shake(100)
+            -- TargetState.ability = self
+            -- TargetState.tiles = {}
+            -- GameState.push(TargetState)
         end
     },
     ["attackB"] = {

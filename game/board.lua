@@ -40,3 +40,69 @@ end
 function Board:isSolid(pos)
     return self.tiles[pos.y][pos.x].isSolid
 end
+
+function Board:isValid(pos)
+    return pos.x <= #self.tiles[1] and pos.y <= #self.tiles and pos.x > 0 and pos.y > 0
+end
+
+function Board:getTile(pos)
+    if self:isValid(pos) then
+        return self.tiles[pos.y][pos.x]
+    end
+end
+
+function Board:getNeighbors(pos)
+    local neighbors = {}
+
+    for i, dir in ipairs(DIRS) do
+        local tile = board:getTile(pos + dir)
+        if tile ~= nil and not tile.isSolid then
+            table.insert(neighbors, tile)
+        end
+    end
+
+    return neighbors
+end
+
+function Board:getActor(pos)
+    local tile = board:getTile(pos)
+    if tile.actor ~= nil then 
+        return tile.actor
+    end
+end
+
+function Board:getShortestPath(p1, p2)
+    local frontier = {}
+    local goal = self:getTile(p2.tilePos)
+    table.insert(frontier, self:getTile(p1.tilePos))
+    
+    visited = {}
+    cameFrom = {}
+
+    while #frontier > 0 do
+        current = table.remove(frontier, 1)
+
+        if current == goal then
+            --reconstruct path from goal backwards
+            current = goal
+            path = {}
+            while current ~= self:getTile(p1.tilePos) do
+                table.insert(path, current)
+                current = cameFrom[current]
+            end
+            return path
+        end
+
+        local neighbors = self:getNeighbors(current.tilePos)
+        for i, n in ipairs(neighbors) do
+            if not visited[n] then
+                table.insert(frontier, n)
+                visited[n] = true
+                cameFrom[n] = current
+            end
+        end
+    end
+
+    print("no path found")
+    return {}
+end
