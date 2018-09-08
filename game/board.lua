@@ -84,12 +84,13 @@ function Board:getShortestPath(p1, p2)
 
         if current == goal then
             --reconstruct path from goal backwards
-            current = goal
+            current = cameFrom[current]
             path = {}
             while current ~= self:getTile(p1.tilePos) do
                 table.insert(path, current)
                 current = cameFrom[current]
             end
+            table.insert(path, self:getTile(p1.tilePos))
             return path
         end
 
@@ -104,5 +105,5 @@ function Board:getShortestPath(p1, p2)
     end
 
     print("no path found")
-    return {}
+    return nil
 end

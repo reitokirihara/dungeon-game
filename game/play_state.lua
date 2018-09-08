@@ -10,6 +10,8 @@ PlayState = {
         for i, tile in ipairs(path) do
             tile.color = {0, 0.6, 0.2}
         end
+
+    
     end,
     draw = function(self)
         push:start()
@@ -38,6 +40,18 @@ function PlayState:keypressed(key)
     elseif key == "s" then 
         player:move(DIRS[DIR_DOWN])
     end 
+
+    local path = board:getShortestPath(player, enemy)
+
+    for i, tile in ipairs(path) do
+        tile.color = {0, 0.6, 0.2}
+    end
+
+    if #path > 1 then
+        enemy:move(path[1].tilePos - enemy.tilePos)
+    end
+
+    
 
     if key == "1" then
         player:cast(1)
